@@ -10,7 +10,7 @@ function Post() {
   const [search, setSearch] = useState("");
   const [selectedGif, setSelectedGif] = useState("");
   const [postDetail, setPostDetail] = useState("");
-  const giphyAPI = "0fBwp5f3GeFuaZq1mdrje8OnoUgTcYR4";
+  const giphyAPI = process.env.REACT_APP_GIPHY_KEY;
 
   const fetchPosts = async () => {
     setIsError(false);
@@ -143,6 +143,10 @@ function Post() {
       setTimeout(() => setIsError(false), 4000);
     }
     setIsLoading(false);
+    setPostDetail("")
+    setSelectedGif("");
+    window.location.reload()
+    fetchPosts();
   };
 
   const handleDelete = async (e) => {
@@ -176,8 +180,8 @@ function Post() {
         </h3>
       </div>
       <div className="container-fluid mt-3" style={{ display: "flex" }}>
-        <div className="row">
-          <div className="col-4">
+        <div className="row" style={{width:"100%"}}>
+          <div className="col-12 col-md-4 col-lg-4">
             <button
               type="button"
               class=" addbtn"
@@ -187,12 +191,12 @@ function Post() {
               Add Post
             </button>
           </div>
-          <div className="col mt-5">
+          <div className="col-12 mt-5">
             <div className="container">
               <div className="row">
                 {postData
                   ? postData.map((e, i) => (
-                      <div key={e.id} className="col-4">
+                      <div key={e.id} className="col-12 col-md-4 col-lg-4">
                         <div
                           class="card"
                           style={{ width: "18rem", background: "#b8dbd9" }}
@@ -201,6 +205,7 @@ function Post() {
                             class="card-img-top"
                             src={e.gifurl}
                             alt="Card image cap"
+                            style={{maxHeight:"230px"}}
                           />
                           <div class="card-body">
                             <h5 class="card-title">Caption</h5>
